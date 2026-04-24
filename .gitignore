@@ -1,0 +1,10 @@
+.env
+.venv
+.vscode/
+**/debug.log
+__pycache__
+.chainlit
+.files
+D1-Rozw/
+test/
+Dzien2/*

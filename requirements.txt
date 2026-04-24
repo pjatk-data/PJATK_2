@@ -1,0 +1,10 @@
+numpy
+pandas
+matplotlib
+faker
+presidio_analyzer
+presidio_anonymizer
+spacy
+sqlalchemy
+pyodbc
+faker[providers]
