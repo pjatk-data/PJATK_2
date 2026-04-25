@@ -8,3 +8,5 @@ spacy
 sqlalchemy
 pyodbc
 faker[providers]
+langchain
+langchain-text-splitters

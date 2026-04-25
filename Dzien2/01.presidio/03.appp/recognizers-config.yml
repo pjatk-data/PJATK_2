@@ -1,0 +1,263 @@
+# recognizers-config.yml
+# Konfiguracja rozpoznawaczy PII dla języka polskiego
+# Zawiera predefiniowane rozpoznawacze z polskimi słowami kontekstowymi
+# oraz własne rozpoznawacze (regexy) dla polskich formatów danych
+
+global_regex_flags: 26  # re.IGNORECASE | re.MULTILINE | re.DOTALL
+
+supported_languages:
+  - pl
+
+recognizers:
+  # --- SpaCy NER Recognizer (PERSON, ORGANIZATION, LOCATION, DATE_TIME) ---
+  - name: SpacyRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+
+  # --- Predefiniowane rozpoznawacze z polskim kontekstem ---
+
+  - name: EmailRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - email
+          - e-mail
+          - mail
+          - adres email
+          - adres e-mail
+          - poczta
+          - poczta elektroniczna
+          - kontakt
+          - napisz do
+
+  - name: PhoneRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - telefon
+          - tel
+          - numer telefonu
+          - nr tel
+          - komórka
+          - komórkowy
+          - stacjonarny
+          - zadzwoń
+          - kontakt telefoniczny
+
+  - name: CreditCardRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - karta
+          - karta kredytowa
+          - karta płatnicza
+          - karta debetowa
+          - numer karty
+          - visa
+          - mastercard
+          - maestro
+
+  - name: IbanRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - iban
+          - numer konta
+          - nr konta
+          - rachunek
+          - rachunek bankowy
+          - konto bankowe
+          - przelew
+
+  - name: UrlRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - strona
+          - link
+          - adres
+          - www
+          - strona internetowa
+          - witryna
+
+  - name: IpRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - ip
+          - adres ip
+
+  - name: DateRecognizer
+    type: predefined
+    supported_languages:
+      - language: pl
+        context:
+          - data
+          - data urodzenia
+          - urodzony
+          - urodzona
+          - dnia
+          - dzień
+
+  # --- Własne rozpoznawacze dla polskich formatów ---
+
+  # PESEL - polski numer identyfikacyjny (11 cyfr)
+  - name: PolishPeselRecognizer
+    type: custom
+    supported_entity: PL_PESEL
+    supported_languages:
+      - language: pl
+        context:
+          - pesel
+          - numer pesel
+          - nr pesel
+          - identyfikator
+    patterns:
+      - name: pesel_pattern
+        regex: "\\b\\d{11}\\b"
+        score: 0.5
+
+  # NIP - Numer Identyfikacji Podatkowej (10 cyfr, czasem z myślnikami)
+  - name: PolishNipRecognizer
+    type: custom
+    supported_entity: PL_NIP
+    supported_languages:
+      - language: pl
+        context:
+          - nip
+          - numer nip
+          - nr nip
+          - identyfikator podatkowy
+          - numer identyfikacji podatkowej
+    patterns:
+      - name: nip_with_dashes
+        regex: "\\b\\d{3}-\\d{3}-\\d{2}-\\d{2}\\b"
+        score: 0.7
+      - name: nip_with_dashes_alt
+        regex: "\\b\\d{3}-\\d{2}-\\d{2}-\\d{3}\\b"
+        score: 0.7
+      - name: nip_plain
+        regex: "\\b\\d{10}\\b"
+        score: 0.3
+
+  # REGON - numer statystyczny firmy (9 lub 14 cyfr)
+  - name: PolishRegonRecognizer
+    type: custom
+    supported_entity: PL_REGON
+    supported_languages:
+      - language: pl
+        context:
+          - regon
+          - numer regon
+          - nr regon
+          - numer statystyczny
+    patterns:
+      - name: regon_9
+        regex: "\\b\\d{9}\\b"
+        score: 0.3
+      - name: regon_14
+        regex: "\\b\\d{14}\\b"
+        score: 0.5
+
+  # Polski numer dowodu osobistego (3 litery + 6 cyfr)
+  - name: PolishIdCardRecognizer
+    type: custom
+    supported_entity: PL_ID_CARD
+    supported_languages:
+      - language: pl
+        context:
+          - dowód
+          - dowód osobisty
+          - numer dowodu
+          - nr dowodu
+          - seria i numer dowodu
+    patterns:
+      - name: id_card_pattern
+        regex: "\\b[A-Z]{3}\\s?\\d{6}\\b"
+        score: 0.6
+
+  # Polski numer paszportu (2 litery + 7 cyfr)
+  - name: PolishPassportRecognizer
+    type: custom
+    supported_entity: PL_PASSPORT
+    supported_languages:
+      - language: pl
+        context:
+          - paszport
+          - numer paszportu
+          - nr paszportu
+          - seria paszportu
+    patterns:
+      - name: passport_pattern
+        regex: "\\b[A-Z]{2}\\s?\\d{7}\\b"
+        score: 0.6
+
+  # Polski kod pocztowy (XX-XXX)
+  - name: PolishPostalCodeRecognizer
+    type: custom
+    supported_entity: PL_POSTAL_CODE
+    supported_languages:
+      - language: pl
+        context:
+          - kod pocztowy
+          - kod
+          - pocztowy
+          - adres
+    patterns:
+      - name: postal_code_pattern
+        regex: "\\b\\d{2}-\\d{3}\\b"
+        score: 0.4
+
+  # Polski numer telefonu komórkowego
+  - name: PolishMobilePhoneRecognizer
+    type: custom
+    supported_entity: PL_PHONE
+    supported_languages:
+      - language: pl
+        context:
+          - telefon
+          - tel
+          - komórka
+          - numer telefonu
+          - nr tel
+          - mobile
+          - kontakt
+    patterns:
+      - name: mobile_with_prefix
+        regex: "\\+48\\s?\\d{3}\\s?\\d{3}\\s?\\d{3}\\b"
+        score: 0.7
+      - name: mobile_with_country_parens
+        regex: "\\(\\+48\\)\\s?\\d{3}\\s?\\d{3}\\s?\\d{3}\\b"
+        score: 0.7
+      - name: mobile_9_digits
+        regex: "\\b\\d{3}[\\s-]?\\d{3}[\\s-]?\\d{3}\\b"
+        score: 0.4
+
+  # Numer konta bankowego (26 cyfr, opcjonalnie ze spacjami)
+  - name: PolishBankAccountRecognizer
+    type: custom
+    supported_entity: PL_BANK_ACCOUNT
+    supported_languages:
+      - language: pl
+        context:
+          - konto
+          - numer konta
+          - nr konta
+          - rachunek
+          - rachunek bankowy
+          - przelew
+          - wpłata
+    patterns:
+      - name: bank_account_plain
+        regex: "\\b\\d{26}\\b"
+        score: 0.5
+      - name: bank_account_formatted
+        regex: "\\b\\d{2}\\s\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}\\b"
+        score: 0.7

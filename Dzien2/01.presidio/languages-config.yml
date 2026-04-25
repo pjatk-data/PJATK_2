@@ -1,0 +1,32 @@
+
+# languages-config.yml
+# Konfiguracja silnika NLP dla Presidio z wykorzystaniem spaCy
+# Język: polski (duży model: pl_core_news_lg)
+
+nlp_engine_name: spacy
+
+models:
+  - lang_code: pl
+    model_name: pl_core_news_sm
+
+# Mapowanie etykiet NER zwracanych przez model spaCy -> typy jednostek Presidio.
+# Zweryfikuj etykiety na swoim modelu i w razie potrzeby rozszerz.
+ner_model_configuration:
+  default_score: 0.6
+  model_to_presidio_entity_mapping:
+    PERSON: PERSON
+    ORG: ORGANIZATION
+    GPE: LOCATION
+    LOC: LOCATION
+    FAC: LOCATION
+    DATE: DATE_TIME
+    TIME: DATE_TIME
+    # Etykiety specyficzne dla polskiego modelu spaCy (pl_core_news_lg):
+    persName: PERSON
+    orgName: ORGANIZATION
+    placeName: LOCATION
+    geogName: LOCATION
+
+# Opcjonalne: lista języków wspieranych przez ten silnik
+supported_languages:
+  - pl
