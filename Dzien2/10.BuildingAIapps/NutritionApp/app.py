@@ -3,10 +3,10 @@ from typing import List
 
 import pandas as pd
 import streamlit as st
-from dotenv import load_dotenv
+from dotenv import find_dotenv, load_dotenv
 from openai import OpenAI, OpenAIError
 
-load_dotenv()
+load_dotenv(find_dotenv(), override=True)
 
 st.set_page_config(
     page_title="Creative Nutrition Planner", page_icon="🥗", layout="wide"
@@ -146,7 +146,7 @@ st.write(
 
 def create_client() -> OpenAI | None:
     """Return an OpenAI client when an API key is available."""
-    api_key = os.getenv("OPENAI_API_KEY") or os.getenv("AZURE_OPENAI_API_KEY")
+    api_key = os.getenv("AZURE_OPENAI_API_KEY")
     base_url = os.getenv("AZURE_OPENAI_ENDPOINT")
     if not api_key or not base_url:
         return None
@@ -172,8 +172,7 @@ def generate_recipe(ingredients: List[str], total_kcal: int) -> str:
 
     try:
         response = client.responses.create(
-            model=os.getenv("AZURE_OPENAI_COMPLETION_MODEL")
-            or os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
+            model=os.getenv("AZURE_OPENAI_COMPLETION_MODEL"),
             input=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": user_input},

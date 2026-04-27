@@ -40,8 +40,6 @@ pip install -r requirements.txt
 4. Utwórz plik `.env` w tym samym katalogu i dodaj wymagane zmienne, jeśli chcesz korzystać z generowania przepisów:
 
 ```env
-OPENAI_API_KEY=twoj_klucz
-# albo dla Azure OpenAI:
 AZURE_OPENAI_API_KEY=twoj_klucz
 AZURE_OPENAI_ENDPOINT=https://twoj-zasob.openai.azure.com/
 AZURE_OPENAI_COMPLETION_MODEL=nazwa-wdrozenialub-modelu
